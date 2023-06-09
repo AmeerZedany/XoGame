@@ -1,0 +1,155 @@
+body{
+    background-color: #110f2f;
+    margin: 5%;
+}
+.image1{
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    left: 700px;
+}
+.TopLeft h5{
+    color: #aaaaaa;
+}
+.Class1 h1{
+    color: #aaaaaa;
+    position: relative;
+    width: 500px;
+    top: 9px;
+    left: 45px;
+}
+.Class1 p{
+    color: #aaaaaa;
+    position: relative;
+    width: 300px;
+    top : 20px;
+    left: 45px;
+}
+.modes .changeMode{
+    position: relative;
+    left: 50px;
+    width: 250px;
+    height: 30px;
+    top: 25px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+}
+#Multiplayer{
+    color: white;
+    background-color: #444444;
+    border-end-start-radius: 160px;
+    border-color: #007bff;
+
+}
+#OnePlayer{
+    color: black;
+    background-color: white;
+    border-start-end-radius: 160px;
+}
+.two_players{
+    display: contents;
+}
+.two_players .txt{
+    position: relative;
+    width: 220px;
+    height: 30px;
+    top: 80px;
+    left: 150px;
+    padding-left: 50px;
+    display: flex;
+    font-size: 16px;
+    color: white;
+    background-color: #110f2f;
+    border-color: white;
+    border: 2px solid white;
+    outline: none;
+}
+
+.one_player{
+    display: none;
+}
+.one_player .txt{
+    position: relative;
+    width: 260px;
+    height: 30px;
+    top: 130px;
+    left: 150px;
+    padding-left: 50px;
+    display: flex;
+    font-size: 16px;
+    color: white;
+    background-color: #110f2f;
+    border-color: white;
+    border: 2px solid white;
+    outline: none;
+}
+.image2{
+    position: relative;
+    width: 35px;
+    height: 32.1px;
+    top: 46px;
+    left:151px;
+}
+.image3{
+    position: relative;
+    width: 35px;
+    height: 32.1px;
+    top: 46px;
+    left:151px;
+}
+.image4{
+    position: relative;
+    width: 35px;
+    height: 32.1px;
+    top: 96px;
+    left:151px;
+}
+.Class3 .CLick{
+    position: relative;
+    width: 120px;
+    height: 35px;
+    top: 110px;
+    left: 150px;
+    margin-right: 35px;
+    border-radius: 16px;
+    background-color: #444444;
+    color: white;
+    border-color: white;
+    font-size: 16px;
+}
+.difficulty{
+    display : none;
+}
+.difficulty label{
+    position: relative;
+    width: 200px;
+    text-align: center;
+    left : 12%;
+    width:130px;
+    border: 2px solid white;
+    background-color: white;
+}
+.point{
+    display: none; 
+}
+.radio-text {
+    position: relative;
+    top: -5px;
+  }
+  
+.radio-button {
+    display: inline-block; 
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    height: 10px;
+  }
+.radio-button.selected {
+    border-color: #007bff;
+    background-color: #444444;
+    cursor: default;
+    
+  }

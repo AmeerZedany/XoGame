@@ -1,0 +1,101 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .current-player{
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+    width: 285px;
+    margin-bottom: 4%;
+  }
+  .board {
+    border-collapse: collapse;
+    margin: 1%;
+    background-color: white;
+  }
+  
+  .board td {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 36px;
+    cursor: pointer;
+  }
+  
+  .board td:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .board td:first-child {
+    border-left: none;
+  }
+  
+  .board td:last-child {
+    border-right: none;
+  }
+  
+  .board tr:first-child td {
+    border-top: none;
+  }
+  
+  .board tr:last-child td {
+    border-bottom: none;
+  }
+    
+  .message {
+    text-align: center;
+    font-size: 20px;
+    padding: 11px;
+  }
+  .play-again {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5%;
+  }
+  .play-again:hover {
+    background-color: #45a049;
+  }
+
+  .result-box {
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 10px 5px;
+    height: 200px;
+    width : 285px;
+    text-align: center;
+    background-color: #f9f9f9;
+    margin-left: 70%;
+    margin-top: -22.5%;
+  }
+
+  .result-box p{
+    margin: 30px 
+  }
+  .Time-box{
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 10px 5px;
+    height: 200px;
+    width : 285px;
+    text-align: center;
+    background-color: #f9f9f9;
+    margin-left: -70%;
+    margin-top: -17%;
+  }
+  .Time-box p{
+    margin: 15px 
+  }
