@@ -153,3 +153,19 @@ body{
     cursor: default;
     
   }
+@media (max-width: 480px) {
+  .two_players .txt,
+  .one_player .txt {
+    top: 0;
+  }
+  
+  .image2,
+  .image3,
+  .image4 {
+    top: 0;
+  }
+  
+  .Class3 .CLick {
+    top: 0;
+  }
+}

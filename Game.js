@@ -15,7 +15,11 @@ function Game({gameOn , mode,player1,player2}) {
       ['', '', ''],
       ['', '', ''],
     ]);
-
+    const [calculationBoard, setCalculationBoard] = useState([
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ]);
     const [winner, setWinner] = useState('');
     const [xWins, setXWins] = useState(0);
     const [oWins, setOWins] = useState(0);
@@ -148,99 +152,153 @@ function Game({gameOn , mode,player1,player2}) {
     };
 
     const makeBestMove = () => {
-      const emptyCells = [];
+      let bestScore = -Infinity;
+      let bestMove = null;
     
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
           if (board[row][col] === '') {
-            emptyCells.push({ row, col });
+            board[row][col] = 'X';
+            const moveScore= minimax(board, false);   
+            board[row][col] = '';
+    
+            if (moveScore > bestScore) {
+              bestScore = moveScore;
+              bestMove = { row, col };
+            }
           }
         }
       }
     
-      if (emptyCells.length > 0) {
-        const bestMove = getBestMove(board, currentPlayer);
+      if (bestMove) {
         const { row, col } = bestMove;
-        const newBoard = [...board];
-        newBoard[row][col] = currentPlayer;
-        setBoard(newBoard);
-        checkWinner(newBoard, row, col);
+        board[row][col] = 'X';
+        setBoard([...board]);
+        checkWinner(board, row, col);
         setCurrentPlayer('O');
-        console.log("Finished");
       }
     };
-    const getBestMove = (board, player) => {
-      const availableMoves = [];
+    
+    
+    
+    
+    function minimax(board, maximizingPlayer) {
+      if (isGameOver(board)) {
+        const score = evaluate(board);
+        return score;
+      }
+    
+      const scores = [];
+    
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
           if (board[row][col] === '') {
-            const move = { row, col };
             const newBoard = [...board];
-            newBoard[row][col] = player;
-            const score = minimax(newBoard, player === 'X' ? 'O' : 'X', false);
-            move.score = score;
-            availableMoves.push(move);
+            newBoard[row][col] = maximizingPlayer ? 'X' : 'O';
+            const score = minimax(newBoard, !maximizingPlayer);
+            newBoard[row][col] = '';
+            scores.push(score);
           }
         }
       }
     
-      let bestMove;
-      let bestScore = player === 'X' ? -Infinity : Infinity;
-    
-      for (let i = 0; i < availableMoves.length; i++) {
-        const currentMove = availableMoves[i];
-        if ((player === 'X' && currentMove.score > bestScore) ||
-            (player === 'O' && currentMove.score < bestScore)) {
-          bestScore = currentMove.score;
-          bestMove = currentMove;
-        }
-      }
-    
-      return bestMove;
+      return maximizingPlayer ? Math.max(...scores) : Math.min(...scores);
+    }
+
+    const isGameOver = (board) => {
+      // Check for a win or a tie
+      return hasWinner(board) || isBoardFull(board);
     };
-    const minimax = (board, player, maximizingPlayer) => {
-      const winner = checkWinner2(board);
-    
-      if (winner === 'X') {
-        return -1;
-      } else if (winner === 'O') {
-        return 1;
-      } else if (winner === 'tie') {
-        return 0;
-      }
-    
-      if (maximizingPlayer) {
-        let bestScore = -Infinity;
-    
-        for (let row = 0; row < 3; row++) {
-          for (let col = 0; col < 3; col++) {
-            if (board[row][col] === '') {
-              const newBoard = [...board];
-              newBoard[row][col] = player;
-              const score = minimax(newBoard, player === 'X' ? 'O' : 'X', false);
-              bestScore = Math.max(bestScore, score);
-            }
-          }
-        }
-    
-        return bestScore;
-      } else {
-        let bestScore = Infinity;
-    
-        for (let row = 0; row < 3; row++) {
-          for (let col = 0; col < 3; col++) {
-            if (board[row][col] === '') {
-              const newBoard = [...board];
-              newBoard[row][col] = player;
-              const score = minimax(newBoard, 'X', true);
-              bestScore = Math.min(bestScore, score);
-            }
-          }
-        }
-    
-        return bestScore;
-      }
+
+    const isBoardFull = (board) => {
+      // Check if the board is full
+      return board.every(row => row.every(cell => cell !== ''));
     };
+    
+    const hasWinner = (board) => {
+      // Check rows
+      for (let row = 0; row < 3; row++) {
+        if (
+          board[row][0] !== '' &&
+          board[row][0] === board[row][1] &&
+          board[row][1] === board[row][2]
+        ) {
+          return true;
+        }
+      }
+    
+      // Check columns
+      for (let col = 0; col < 3; col++) {
+        if (
+          board[0][col] !== '' &&
+          board[0][col] === board[1][col] &&
+          board[1][col] === board[2][col]
+        ) {
+          return true;
+        }
+      }
+    
+      // Check diagonals
+      if (
+        board[0][0] !== '' &&
+        board[0][0] === board[1][1] &&
+        board[1][1] === board[2][2]
+      ) {
+        return true;
+      }
+    
+      if (
+        board[0][2] !== '' &&
+        board[0][2] === board[1][1] &&
+        board[1][1] === board[2][0]
+      ) {
+        return true;
+      }
+    
+      // No winner
+      return false;
+    };
+    
+    const evaluate = (board) => {
+      const winningCombinations = [
+        // Rows
+        [[0, 0], [0, 1], [0, 2]],
+        [[1, 0], [1, 1], [1, 2]],
+        [[2, 0], [2, 1], [2, 2]],
+        // Columns
+        [[0, 0], [1, 0], [2, 0]],
+        [[0, 1], [1, 1], [2, 1]],
+        [[0, 2], [1, 2], [2, 2]],
+        // Diagonals
+        [[0, 0], [1, 1], [2, 2]],
+        [[0, 2], [1, 1], [2, 0]]
+      ];
+    
+      // Check for a win
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (
+          board[a[0]][a[1]] === 'X' &&
+          board[b[0]][b[1]] === 'X' &&
+          board[c[0]][c[1]] === 'X'
+        ) {
+          return 10; // AI wins
+        } else if (
+          board[a[0]][a[1]] === 'O' &&
+          board[b[0]][b[1]] === 'O' &&
+          board[c[0]][c[1]] === 'O'
+        ) {
+          return -10; // Human wins
+        }
+      }
+    
+      // No win, so it's a tie
+      return 0;
+    };
+    
+    // The remaining helper functions (isGameOver, evaluate, getNextPlayer, isBoardFull) should be implemented as mentioned in my previous response.
+    
+    
     
     const checkWinner = (currentBoard, row, col) => {
       const symbols = ['X', 'O'];
@@ -306,48 +364,7 @@ function Game({gameOn , mode,player1,player2}) {
 
 
     };
-    const checkWinner2 = (currentBoard) => {
-      const symbols = ['X', 'O'];
-    
-      for (let symbol of symbols) {
-        for (let row = 0; row < 3; row++) {
-          if (
-            currentBoard[row][0] === symbol &&
-            currentBoard[row][1] === symbol &&
-            currentBoard[row][2] === symbol
-          ) {
-            return symbol;
-          }
-        }
-    
-        for (let col = 0; col < 3; col++) {
-          if (
-            currentBoard[0][col] === symbol &&
-            currentBoard[1][col] === symbol &&
-            currentBoard[2][col] === symbol
-          ) {
-            return symbol;
-          }
-        }
-    
-        if (
-          (currentBoard[0][0] === symbol &&
-            currentBoard[1][1] === symbol &&
-            currentBoard[2][2] === symbol) ||
-          (currentBoard[0][2] === symbol &&
-            currentBoard[1][1] === symbol &&
-            currentBoard[2][0] === symbol)
-        ) {
-          return symbol;
-        }
-      }
-    
-      if (!currentBoard.flat().includes('')) {
-        return 'draw';
-      }
-    
-      return null;
-    };
+  
 
     const updateScore = (symbol) => {
       if (symbol === 'X') {
@@ -418,10 +435,10 @@ function Game({gameOn , mode,player1,player2}) {
       {/* All time Plays for one Round ,Min Time You Win,Max Time You Win*/}
       <div className="Time-box">
         <p>Time For this Round : {elapsedTime}</p>
-        <p>Min Time {player1} Win: {minWinTimeX}</p>
-        <p>Max Time {player1} Win : {maxWinTimeX}</p>
-        <p>Min Time {player2} Win: {minWinTimeO}</p>
-        <p>Max Time {player2} Win : {maxWinTimeO}</p>
+        <p>Min Time {player2} Win: {minWinTimeX}</p>
+        <p>Max Time {player2} Win : {maxWinTimeX}</p>
+        <p>Min Time {player1} Win: {minWinTimeO}</p>
+        <p>Max Time {player1} Win : {maxWinTimeO}</p>
       </div>
     </div>
     

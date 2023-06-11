@@ -2,6 +2,7 @@ export const GAME = 'GAME';
 export const COUNT = 'COUNT';
 export const ADD_OWINNER = 'ADD_OWINNER';
 export const ADD_XWINNER = 'ADD_XWINNER';
+export const CLEAR = 'CLEAR';
 
 let oMin ;
 let oMax ;
@@ -40,6 +41,12 @@ export function addXWinner(XTime) {
   return {
     type: ADD_XWINNER,
     XTime: [XTime],
+  };
+}
+
+export function Clear() {
+  return {
+    type: CLEAR,
   };
 }
 
@@ -87,6 +94,15 @@ function middleware(state = initialState, action) {
         MaxWinTimeX : xMax,
         MinWinTimeX : xMin,
       };
+
+    case CLEAR:
+      console.log("Done")
+      return { ...state,
+        GameNumber: [] , RoundTime: [], OTime: [], XTime: [] ,
+        MaxWinTimeX : null ,
+        MinWinTimeX : null ,
+        MaxWinTimeO : null ,
+        MinWinTimeO : null };
     default:
       // Check if the cached data is still valid before returning the state
       if (state.GameNumber.length > 0 ) {

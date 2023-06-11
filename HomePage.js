@@ -3,6 +3,9 @@ import './HomePage.css';
 import XOimage from './XOimage.jpg'; // Assuming the image is in the same directory as this component file
 import Face from './Face.png'; // Assuming the image is in the same directory as this component file
 import { useNavigate} from 'react-router-dom';
+import { useDispatch} from 'react-redux';
+import { Clear} from './Action';
+
 function HomeComp({setgameOn , mode , setMode ,setPlayer1 ,setPlayer2 }) {
     
     const [selectedOption, setSelectedOption] = useState("");
@@ -15,9 +18,11 @@ function HomeComp({setgameOn , mode , setMode ,setPlayer1 ,setPlayer2 }) {
     const Player2Text = useRef(null);
     const Player3Text = useRef(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect( () => {
         setMode(0);
+        dispatch(Clear());
     },[]);
 
     const handleReadMoreClick = () => {
@@ -106,13 +111,19 @@ function HomeComp({setgameOn , mode , setMode ,setPlayer1 ,setPlayer2 }) {
                 else{
                     setPlayer1(Player3Text.current.value);
                 }
+                if (mode === 1 ){
+                    setPlayer2("Computer");
+                }
+                else{
+                    setPlayer2("AI");
+                }
                 setgameOn(1);
                 navigate("/Game");
             }
             
         }
     }
-
+  
     return(
         <div>
             <div className="TopLeft">
